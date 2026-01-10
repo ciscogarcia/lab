@@ -1,0 +1,46 @@
+---
+- name: Provision DNS Server
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Update system
+      ansible.builtin.command: sudo apt update
+
+    - name: Upgrade system
+      ansible.builtin.command: sudo apt upgrade
+
+    - name : Install BIND9
+      ansible.builtin.command: sudo apt install -y bind9
+
+    - name: Install BIND Config
+      ansible.builtin.copy:
+        src: config/named.conf.local
+        dest: /etc/bind/named.conf.local
+        owner: root
+        group: bind
+        mode: '0664'
+      become: yes
+            
+    - name: Install BIND Zone file
+      ansible.builtin.copy:
+        src: config/ciscogarcia.lan
+        dest: /etc/bind/ciscogarcia.lan
+        owner: root
+        group: bind
+        mode: '0664'
+      become: yes
+
+    - name: Set DNS
+      ansible.builtin.copy:
+        src: config/dhcpcd.conf
+        dest: /etc/dhcpcd.conf
+        owner: root
+        group: bind
+        mode: '0664'
+      become: yes
+
+    - name: Restart BIND
+      ansible.builtin.command: sudo systemctl restart named
+
+    - name: Restart Networking
+      ansible.builtin.command: sudo systemctl restart networking

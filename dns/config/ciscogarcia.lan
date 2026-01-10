@@ -1,0 +1,13 @@
+$ORIGIN ciscogarcia.lan
+$TTL 604800
+ciscogarcia.lan. IN     SOA     ciscogarcia.lan. root.ciscogarcia.lan. (
+2               ; SERIAL
+604800          ; TTL
+86400           ; RETRY
+2419200         ; EXPIRE
+604800 )        ; NEGATIVE CACHE TTL
+        IN      A       192.168.56.100
+@       IN      A       192.168.56.100
+@       IN      AAAA    ::1
+ns.ciscogarcia.lan.     IN      A       192.168.56.100
+ciscogarcia.lan.        IN      NS      ns.ciscogarcia.lan.

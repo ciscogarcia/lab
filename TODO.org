@@ -1,0 +1,85 @@
+* Lab TODOs
+** DONE assign ip address, hostname
+   CLOSED: [2026-01-09 Fri 21:29]
+   ip: 10.0.2.X
+   gateway: 10.0.2.2
+** TODO Set hostname, domain name   
+** DONE ansible install bind9 and zone file, start service
+   CLOSED: [2026-01-09 Fri 22:58]
+*** install bind9
+*** install zone file
+/etc/bind/named.conf.local
+//
+// Do any local configuration here
+//
+zone "ciscogarcia.lan" 
+{
+        type master;
+        file "/etc/bind/ciscogarcia.lan";
+};
+
+/etc/bind/ciscogarcia.lan
+$ORIGIN ciscogarcia.lan
+$TTL 604800
+ciscogarcia.lan. IN     SOA     ciscogarcia.lan. root.ciscogarcia.lan. (
+2               ; SERIAL
+604800          ; TTL
+86400           ; RETRY
+2419200         ; EXPIRE
+604800 )        ; NEGATIVE CACHE TTL
+        IN      A       192.168.56.100
+@       IN      A       192.168.56.100
+@       IN      AAAA    ::1
+ns.ciscogarcia.lan.     IN      A       192.168.56.100
+ciscogarcia.lan.        IN      NS      ns.ciscogarcia.lan.
+*** restart service
+*** set dns
+/etc/dhcpcd.conf
+
+# A sample configuration for dhcpcd.
+# See dhcpcd.conf(5) for details.
+
+# Allow users of this group to interact with dhcpcd via the control socket.
+#controlgroup wheel
+
+# Inform the DHCP server of our hostname for DDNS.
+hostname
+
+# Use the hardware address of the interface for the Client ID.
+#clientid
+# or
+# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
+# Some non-RFC compliant DHCP servers do not reply with this set.
+# In this case, comment out duid and enable clientid above.
+duid
+
+# Persist interface configuration when dhcpcd exits.
+persistent
+
+# vendorclassid is set to blank to avoid sending the default of
+# dhcpcd-<version>:<os>:<machine>:<platform>
+vendorclassid
+
+# A list of options to request from the DHCP server.
+# option domain_name_servers, domain_name, domain_search
+static domain_name=ciscogarcia.lan
+static domain_name_servers=192.168.56.100 8.8.8.8
+static domain_search=ciscogarcia.lan
+option classless_static_routes
+# Respect the network MTU. This is applied to DHCP routes.
+option interface_mtu
+
+# Request a hostname from the network
+option host_name
+
+# Most distributions have NTP support.
+#option ntp_servers
+
+# A ServerID is required by RFC2131.
+require dhcp_server_identifier
+
+# Generate SLAAC address using the Hardware Address of the interface
+#slaac hwaddr
+# OR generate Stable Private IPv6 Addresses based from the DUID
+slaac private
+

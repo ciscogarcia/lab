@@ -1,2 +1,3 @@
-*/box
-*/output-debian13
+*.box
+**/output-debian13
+**/.vagrant/

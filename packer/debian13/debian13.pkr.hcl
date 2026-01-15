@@ -20,8 +20,8 @@ source "virtualbox-iso" "debian13" {
     "<enter><wait>"
   ]
   guest_os_type    = "Debian13_64"
-  iso_url          = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso"
-  iso_checksum     = "677c4d57aa034dc192b5191870141057574c1b05df2b9569c0ee08aa4e32125d"
+  iso_url          = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.3.0-amd64-netinst.iso"
+  iso_checksum     = "c9f09d24b7e834e6834f2ffa565b33d6f1f540d04bd25c79ad9953bc79a8ac02"
   ssh_username     = "vagrant"
   ssh_password     = "vagrant"
   ssh_timeout = "1h"

@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+
+Vagrant.configure("2") do |config|
+  config.vm.define "ns" do |ns|
+    ns.vm.box = "debian"
+    ns.vm.hostname = "ns"
+    # Configure networking (optional, for inter-machine communication)
+    ns.vm.network "private_network", ip: "192.168.56.100"
+    ns.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../ansible/playbook.yml"
+      ansible.groups = {
+        "ns" => ["ns"]
+      }
+    end    
+  end
+
+  config.vm.define "smtp" do |smtp|
+    smtp.vm.box = "debian"
+    smtp.vm.hostname = "smtp"
+    # Configure networking (optional, for inter-machine communication)
+    smtp.vm.network "private_network", ip: "192.168.56.101"
+    smtp.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../ansible/playbook.yml"
+      ansible.groups = {
+        "smtp" => ["smtp"]
+      }
+    end    
+  end  
+end
